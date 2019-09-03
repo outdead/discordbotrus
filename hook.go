@@ -9,8 +9,10 @@ import (
 )
 
 const (
+	// DiscordMaxMessageLen max discord message length.
 	DiscordMaxMessageLen = 2000
 
+	// DefaultTimeLayout default time layout to Formatter implementations.
 	DefaultTimeLayout = "2006-01-02 15:04:05"
 )
 

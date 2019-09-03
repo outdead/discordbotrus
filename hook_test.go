@@ -96,18 +96,18 @@ func TestNewHook_ErrEmptyToken(t *testing.T) {
 }
 
 func TestHook_Fire_Embed(t *testing.T) {
-	testHook_Fire(t, getConfig(EmbedFormatterCode))
+	testHookFire(t, getConfig(EmbedFormatterCode))
 }
 
 func TestHook_Fire_JSON(t *testing.T) {
-	testHook_Fire(t, getConfig(JsonFormatterCode))
+	testHookFire(t, getConfig(JsonFormatterCode))
 }
 
 func TestHook_Fire_Text(t *testing.T) {
-	testHook_Fire(t, getConfig(TextFormatterCode))
+	testHookFire(t, getConfig(TextFormatterCode))
 }
 
-func testHook_Fire(t *testing.T, cfg *Config) {
+func testHookFire(t *testing.T, cfg *Config) {
 	session, err := discordgo.New("Bot " + cfg.Token)
 	if err != nil {
 		t.Fatalf("expected nil got error: %s", err)
