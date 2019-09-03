@@ -5,7 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Options can be used to a create a customized connection.
+// Option can be used to a create a customized connection.
 type Option func(client *Hook)
 
 // SetSession sets discordgo session to Hook.
