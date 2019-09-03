@@ -10,3 +10,12 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# IDE
+.idea/
+
+# internal tests
+
+# vendors
+Gopkg.lock
+vendor/
