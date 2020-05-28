@@ -17,4 +17,5 @@
 # internal tests
 
 # vendors
+Gopkg.lock
 vendor/

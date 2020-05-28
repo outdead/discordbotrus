@@ -12,11 +12,7 @@
 go get github.com/outdead/discordbotrus
 ```
 
-See [Changelog](CHANGELOG.md) for release details.
-
-## Requirements
-
-Go 1.13 or higher
+Or use dependency manager such as dep or vgo.
 
 ## Usage
 
