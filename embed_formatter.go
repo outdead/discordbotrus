@@ -15,10 +15,10 @@ const (
 	embedMaxFieldNameLen   = 256
 	embedMaxFieldValueLen  = 1024
 	embedMaxDescriptionLen = 2048
-
-	// EmbedFormatterCode formatter code to identify from config.
-	EmbedFormatterCode = "embed"
 )
+
+// EmbedFormatterCode formatter code to identify from config.
+const EmbedFormatterCode = "embed"
 
 // DefaultEmbedFormatter used as default EmbedFormatter.
 var DefaultEmbedFormatter = &EmbedFormatter{
