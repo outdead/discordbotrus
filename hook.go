@@ -125,8 +125,7 @@ func (hook *Hook) Close() error {
 func (hook *Hook) setDefaults() error {
 	if hook.levels == nil {
 		var err error
-		hook.levels, err = ParseLevels(hook.config.Levels, hook.config.MinLevel)
-		if err != nil {
+		if hook.levels, err = ParseLevels(hook.config.Levels, hook.config.MinLevel); err != nil {
 			return err
 		}
 	}
@@ -149,7 +148,7 @@ func (hook *Hook) setDefaults() error {
 		switch hook.config.Format {
 		case TextFormatterCode:
 			hook.formatter = DefaultTextFormatter
-		case JsonFormatterCode:
+		case JSONFormatterCode:
 			hook.formatter = DefaultJSONFormatter
 		case EmbedFormatterCode:
 			hook.formatter = DefaultEmbedFormatter

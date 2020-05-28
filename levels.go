@@ -29,6 +29,7 @@ func ParseLevels(lvs []string, minLvl string) ([]logrus.Level, error) {
 			if err != nil {
 				return levels, err
 			}
+
 			if minLevel >= level {
 				levels = append(levels, level)
 			}

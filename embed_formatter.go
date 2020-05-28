@@ -24,17 +24,19 @@ const (
 var DefaultEmbedFormatter = &EmbedFormatter{
 	Inline:          true,
 	TimestampFormat: DefaultTimeLayout,
-	//DisableSorting:  true,
 }
 
 // EmbedFormatter formats logs into parsable json.
 type EmbedFormatter struct {
+	// TimestampFormat sets the format used for marshaling timestamps.
+	TimestampFormat string
+
+	// The keys sorting function, when uninitialized it uses sort.Strings.
+	SortingFunc func([]string)
+
 	// Inline causes fields to be displayed one per line
 	// as opposed to being inline.
 	Inline bool
-
-	// TimestampFormat sets the format used for marshaling timestamps.
-	TimestampFormat string
 
 	// DisableTimestamp allows disabling automatic timestamps in output.
 	DisableTimestamp bool
@@ -43,9 +45,6 @@ type EmbedFormatter struct {
 	// that log extremely frequently and don't use the JSON formatter this may not
 	// be desired.
 	DisableSorting bool
-
-	// The keys sorting function, when uninitialized it uses sort.Strings.
-	SortingFunc func([]string)
 }
 
 // Format renders a single log entry.
@@ -56,6 +55,7 @@ func (f *EmbedFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 // Embed creates discord embed message from logrus entry.
 func (f *EmbedFormatter) Embed(entry *logrus.Entry) *discordgo.MessageEmbed {
 	title := strings.ToUpper(entry.Level.String())
+
 	if !f.DisableTimestamp {
 		timestampFormat := f.TimestampFormat
 		if timestampFormat == "" {
@@ -65,16 +65,10 @@ func (f *EmbedFormatter) Embed(entry *logrus.Entry) *discordgo.MessageEmbed {
 		title = entry.Time.Format(timestampFormat) + " " + title
 	}
 
-	message := discordgo.MessageEmbed{
-		Title: title,
-		Color: LevelColor(entry.Level),
-	}
-
 	// Truncate message if it is too long.
 	if len([]rune(entry.Message)) > embedMaxDescriptionLen {
 		entry.Message = string([]rune(entry.Message)[:embedMaxDescriptionLen])
 	}
-	message.Description = entry.Message
 
 	keys := make([]string, 0, len(entry.Data))
 	for k := range entry.Data {
@@ -89,21 +83,30 @@ func (f *EmbedFormatter) Embed(entry *logrus.Entry) *discordgo.MessageEmbed {
 		}
 	}
 
-	// Add fields to embed.
-	counter := 0
-	fields := make([]*discordgo.MessageEmbedField, 0, len(entry.Data))
-	//for name, value := range entry.Data {
-	for _, name := range keys {
+	message := discordgo.MessageEmbed{
+		Title:       title,
+		Color:       LevelColor(entry.Level),
+		Description: entry.Message,
+		Fields:      f.getFields(keys, entry),
+	}
+
+	return &message
+}
+
+func (f *EmbedFormatter) getFields(keys []string, entry *logrus.Entry) []*discordgo.MessageEmbedField {
+	fields := make([]*discordgo.MessageEmbedField, 0, len(keys))
+
+	for i, name := range keys {
 		value := entry.Data[name]
 
 		// Ensure that the maximum field number is not exceeded.
-		if counter >= embedMaxFieldCount {
+		if i >= embedMaxFieldCount {
 			break
 		}
 
 		// Make value a string.
 		valueStr := fmt.Sprintf("%v", value)
-		if len(valueStr) == 0 {
+		if valueStr == "" {
 			// Fix for discordgo bug with empty field value. Discord responses
 			// `HTTP 400 Bad Request, {"embed": ["fields"]}` and nothing is clear.
 			// Therefore must skip the value or add a fake value.
@@ -125,10 +128,8 @@ func (f *EmbedFormatter) Embed(entry *logrus.Entry) *discordgo.MessageEmbed {
 			Inline: f.Inline,
 		}
 
-		counter++
 		fields = append(fields, &field)
 	}
-	message.Fields = fields
 
-	return &message
+	return fields
 }

@@ -100,7 +100,7 @@ func TestHook_Fire_Embed(t *testing.T) {
 }
 
 func TestHook_Fire_JSON(t *testing.T) {
-	testHookFire(t, getConfig(JsonFormatterCode))
+	testHookFire(t, getConfig(JSONFormatterCode))
 }
 
 func TestHook_Fire_Text(t *testing.T) {

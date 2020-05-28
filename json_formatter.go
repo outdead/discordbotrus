@@ -2,8 +2,8 @@ package hook
 
 import "github.com/sirupsen/logrus"
 
-// JsonFormatterCode formatter code to identify from config.
-const JsonFormatterCode = "json"
+// JSONFormatterCode formatter code to identify from config.
+const JSONFormatterCode = "json"
 
 // DefaultJSONFormatter used as default JSONFormatter.
 var DefaultJSONFormatter = &JSONFormatter{
