@@ -47,3 +47,6 @@ jobs:
 
     - name: Build
       run: go build -v .
+    env:
+      LDH_CHANNEL: ${{ secrets.LDH_CHANNEL }}
+      LDH_TOKEN: ${{ secrets.LDH_TOKEN }}
