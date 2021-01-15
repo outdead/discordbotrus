@@ -1,7 +1,7 @@
 # discordbotrus
-[![Go Report Card](https://goreportcard.com/badge/github.com/outdead/discordbotrus)](https://goreportcard.com/report/github.com/outdead/discordbotrus)
-[![Build Status](https://travis-ci.org/outdead/discordbotrus.svg?branch=master)](https://travis-ci.org/outdead/discordbotrus)
+[![GitHub Build](https://github.com/outdead/discordbotrus/workflows/build/badge.svg)](https://github.com/goutdead/discordbotrus/actions)
 [![Coverage](https://gocover.io/_badge/github.com/outdead/discordbotrus?0 "coverage")](https://gocover.io/github.com/outdead/discordbotrus)
+[![Go Report Card](https://goreportcard.com/badge/github.com/outdead/discordbotrus)](https://goreportcard.com/report/github.com/outdead/discordbotrus)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/outdead/discordbotrus)
 
 [Logrus](https://github.com/sirupsen/logrus) hook for [Discord](https://discordapp.com/) using [Discord application](https://discordapp.com/developers/applications/).
@@ -16,7 +16,7 @@ See [Changelog](CHANGELOG.md) for release details.
 
 ## Requirements
 
-Go 1.13 or higher
+Go 1.15 or higher
 
 ## Usage
 

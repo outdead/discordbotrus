@@ -1,6 +1,10 @@
 package hook
 
-import "github.com/sirupsen/logrus"
+import (
+	"fmt"
+
+	"github.com/sirupsen/logrus"
+)
 
 // Colors for log levels.
 const (
@@ -11,7 +15,7 @@ const (
 
 // ParseLevels parses logging levels from the config.
 func ParseLevels(lvs []string, minLvl string) ([]logrus.Level, error) {
-	var levels = make([]logrus.Level, 0, 7)
+	levels := make([]logrus.Level, 0, 7)
 
 	if minLvl == "" {
 		all := logrus.AllLevels
@@ -20,14 +24,14 @@ func ParseLevels(lvs []string, minLvl string) ([]logrus.Level, error) {
 
 	minLevel, err := logrus.ParseLevel(minLvl)
 	if err != nil {
-		return levels, err
+		return levels, fmt.Errorf("discordbotrus: %w", err)
 	}
 
 	if len(lvs) != 0 {
 		for _, lvl := range lvs {
 			level, err := logrus.ParseLevel(lvl)
 			if err != nil {
-				return levels, err
+				return levels, fmt.Errorf("discordbotrus: %w", err)
 			}
 
 			if minLevel >= level {

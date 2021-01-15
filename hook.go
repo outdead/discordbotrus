@@ -80,18 +80,24 @@ func (hook *Hook) Fire(entry *logrus.Entry) error {
 		if ok {
 			msg := embedFormatter.Embed(entry)
 
-			_, err := hook.session.ChannelMessageSendEmbed(hook.config.ChannelID, msg)
-			return err
+			if _, err := hook.session.ChannelMessageSendEmbed(hook.config.ChannelID, msg); err != nil {
+				return fmt.Errorf("discordbotrus: %w", err)
+			}
+
+			return nil
 		}
 	}
 
 	raw, err := hook.formatter.Format(entry)
 	if err != nil {
-		return err
+		return fmt.Errorf("discordbotrus: %w", err)
 	}
 
-	_, err = hook.session.ChannelMessageSend(hook.config.ChannelID, string(raw))
-	return err
+	if _, err := hook.session.ChannelMessageSend(hook.config.ChannelID, string(raw)); err != nil {
+		return fmt.Errorf("discordbotrus: %w", err)
+	}
+
+	return nil
 }
 
 // Levels implements logrus.Hook.
@@ -114,7 +120,7 @@ func (hook *Hook) Close() error {
 	// Close discord connection only if it was opened during initialization.
 	if hook.owner {
 		if err := hook.session.Close(); err != nil {
-			return fmt.Errorf("close discord session error: %s", err)
+			return fmt.Errorf("discordbotrus: %w", err)
 		}
 	}
 
@@ -133,11 +139,11 @@ func (hook *Hook) setDefaults() error {
 	if hook.session == nil {
 		session, err := discordgo.New("Bot " + hook.config.Token)
 		if err != nil {
-			return fmt.Errorf("create discord session error: %s", err)
+			return fmt.Errorf("create session: %w", err)
 		}
 
 		if err := session.Open(); err != nil {
-			return fmt.Errorf("open discord session error: %s", err)
+			return fmt.Errorf("open session: %w", err)
 		}
 
 		hook.session = session

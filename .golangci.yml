@@ -132,6 +132,7 @@ linters:
 issues:
   exclude:
   #  - "shadow: declaration of \"err\"" # (govet)
+    - "are|is missing in" # exhaustivestruct # v1.33
   exclude-rules:
     - text: "weak cryptographic primitive"
       linters:

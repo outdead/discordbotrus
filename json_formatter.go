@@ -1,6 +1,10 @@
 package hook
 
-import "github.com/sirupsen/logrus"
+import (
+	"fmt"
+
+	"github.com/sirupsen/logrus"
+)
 
 // JSONFormatterCode formatter code to identify from config.
 const JSONFormatterCode = "json"
@@ -25,7 +29,7 @@ type JSONFormatter struct {
 func (f *JSONFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	data, err := f.JSONFormatter.Format(entry)
 	if err != nil {
-		return data, err
+		return data, fmt.Errorf("discordbotrus: %w", err)
 	}
 
 	if f.Quoted {
@@ -36,5 +40,5 @@ func (f *JSONFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 		return data, ErrMessageTooLong
 	}
 
-	return data, err
+	return data, nil
 }

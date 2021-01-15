@@ -29,7 +29,7 @@ func TestParseLevels(t *testing.T) {
 
 	// Test parse min level error
 	func() {
-		expErrStr := `not a valid logrus Level: "fake"`
+		expErrStr := `discordbotrus: not a valid logrus Level: "fake"`
 		_, err := ParseLevels(nil, "fake")
 
 		if err == nil {
@@ -44,7 +44,7 @@ func TestParseLevels(t *testing.T) {
 
 	// Test parse levels error
 	func() {
-		expErrStr := `not a valid logrus Level: "wrong"`
+		expErrStr := `discordbotrus: not a valid logrus Level: "wrong"`
 		_, err := ParseLevels([]string{"error", "warning", "wrong", "trace"}, "")
 
 		if err == nil {

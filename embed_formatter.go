@@ -122,7 +122,7 @@ func (f *EmbedFormatter) getFields(keys []string, entry *logrus.Entry) []*discor
 			valueStr = string([]rune(valueStr)[:embedMaxFieldValueLen])
 		}
 
-		var field = discordgo.MessageEmbedField{
+		field := discordgo.MessageEmbedField{
 			Name:   name,
 			Value:  valueStr,
 			Inline: f.Inline,

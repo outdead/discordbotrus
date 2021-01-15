@@ -1,6 +1,10 @@
 package hook
 
-import "github.com/sirupsen/logrus"
+import (
+	"fmt"
+
+	"github.com/sirupsen/logrus"
+)
 
 // TextFormatterCode formatter code to identify from config.
 const TextFormatterCode = "text"
@@ -10,7 +14,6 @@ var DefaultTextFormatter = &TextFormatter{
 	TextFormatter: logrus.TextFormatter{
 		TimestampFormat:  DefaultTimeLayout,
 		QuoteEmptyFields: true,
-		//DisableSorting:   true,
 	},
 	Quoted: true,
 }
@@ -27,7 +30,7 @@ type TextFormatter struct {
 func (f *TextFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	data, err := f.TextFormatter.Format(entry)
 	if err != nil {
-		return data, err
+		return data, fmt.Errorf("discordbotrus: %w", err)
 	}
 
 	if f.Quoted {
@@ -38,5 +41,5 @@ func (f *TextFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 		return data, ErrMessageTooLong
 	}
 
-	return data, err
+	return data, nil
 }

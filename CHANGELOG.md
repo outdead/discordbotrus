@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Added error wrapping.
+- Added GitHub actions workflow. 
+- Added golangci-lint to workflow.
+
+### Updated
+- Upped go module version to 1.15.
+- Upped golangci-lint version to 1.33.
+
+### Removed
+- Removed Travis CI integration.
 
 ## [v1.1.0] - 2020-05-28
 ### Added
