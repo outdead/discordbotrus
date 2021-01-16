@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 **ATTN**: This project uses [semantic versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [v1.2.0] - 2021-01-16
 ### Added
 - Added error wrapping.
 - Added GitHub actions workflow. 
@@ -37,6 +39,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial implementation.
 
-[Unreleased]: https://github.com/outdead/discordbotrus/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/outdead/discordbotrus/compare/v1.2.0...HEAD
+[v1.2.0]: https://github.com/outdead/discordbotrus/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://github.com/outdead/discordbotrus/compare/v1.0.1...v1.1.0
 [v1.0.1]: https://github.com/outdead/discordbotrus/compare/v1.0.0...v1.0.1
