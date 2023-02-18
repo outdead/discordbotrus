@@ -16,7 +16,7 @@ See [Changelog](CHANGELOG.md) for release details.
 
 ## Requirements
 
-Go 1.15 or higher
+Go 1.19 or higher
 
 ## Usage
 

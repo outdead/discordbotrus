@@ -18,6 +18,13 @@ output:
   print-linter-name: true
 
 linters-settings:
+  cyclop:
+    # the maximal code complexity to report
+    max-complexity: 12
+    # the maximal average package complexity. If it's higher than 0.0 (float) the check is enabled (default 0.0)
+    package-average: 0.0
+    # should ignore tests (default false)
+    skip-tests: true
   dupl:
     # tokens count to trigger issue, 150 by default
     threshold: 100
@@ -84,6 +91,12 @@ linters-settings:
       - gopkg.in/Sirupsen/logrus.v1
   lll:
     line-length: 130 # 120 is default
+  tagliatelle:
+    case:
+      use-field-name: true
+      rules:
+        json: snake
+        yaml: snake
   maligned:
     # print struct with more effective memory layout or not, false by default
     suggest-new: true
@@ -126,8 +139,20 @@ linters-settings:
 linters:
   enable-all: true
   disable:
-    - gochecknoglobals
-    - wsl
+    - wrapcheck
+    - deadcode # is deprecated (since v1.49.0)
+    - scopelint # is deprecated (since v1.39.0)
+    - exhaustivestruct # is deprecated (since v1.46.0)
+    - maligned # is deprecated (since v1.38.0)
+    - varcheck # is deprecated (since v1.49.0)
+    - structcheck # is deprecated (since v1.49.0)
+    - ifshort # is deprecated (since v1.48.0)
+    - golint # is deprecated (since v1.41.0)
+    - nosnakecase # is deprecated (since v1.48.1)
+    - interfacer # is deprecated (since v1.38.0)
+    - rowserrcheck # is disabled because of generics
+    - sqlclosecheck # is disabled because of generics
+    - wastedassign # is disabled because of generics
 
 issues:
   exclude:
@@ -140,6 +165,9 @@ issues:
     - linters:
         - lll
       source: "^//go:generate "
+    - linters:
+        - gochecknoglobals
+      source: "Default"
     - path: _test\.go
       linters:
         - gocyclo

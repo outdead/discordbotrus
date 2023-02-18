@@ -13,9 +13,11 @@ const (
 	ColorRed    = 0xff0000
 )
 
+const levelsCount = 7
+
 // ParseLevels parses logging levels from the config.
 func ParseLevels(lvs []string, minLvl string) ([]logrus.Level, error) {
-	levels := make([]logrus.Level, 0, 7)
+	levels := make([]logrus.Level, 0, levelsCount)
 
 	if minLvl == "" {
 		all := logrus.AllLevels
