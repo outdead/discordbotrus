@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ## [v1.3.0] - 2025-07-13
-## Fixed
+### Fixed
 - Minor tests fixes.
 
 ### Updated
