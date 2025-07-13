@@ -33,19 +33,20 @@ import (
 
 func main() {
 	cfg := discordbotrus.NewDefaultConfig(os.Getenv("LDH_TOKEN"), os.Getenv("LDH_CHANNEL"))
-	hooker, err := discordbotrus.New(cfg)
+
+	hook, err := discordbotrus.New(cfg)
 	if err != nil {
 		log.Fatalf("expected nil got error: %s", err)
 	}
 
-	defer hooker.Close()
+	defer hook.Close()
 
 	logger := &logrus.Logger{
-		Formatter: new(logrus.JSONFormatter), 
-		Hooks: make(logrus.LevelHooks), 
-		Level: logrus.InfoLevel,
+		Formatter: new(logrus.JSONFormatter),
+		Hooks:     make(logrus.LevelHooks),
+		Level:     logrus.InfoLevel,
 	}
-	logger.AddHook(hooker)
+	logger.AddHook(hook)
 
 	logger.Info("My spoon is too big")
 }
@@ -84,10 +85,9 @@ func main() {
 
 	defer session.Close()
 
-	hooker, err := hook.New(
-		&discordbotrus.Config{ChannelID: channelID},
-		discordbotrus.SetSession(session),
-	)
+	cfg := &discordbotrus.Config{ChannelID: channelID}
+
+	hook, err := discordbotrus.New(cfg, discordbotrus.WithSession(session))
 	if err != nil {
 		log.Fatalf("expected nil got error: %s", err)
 	}
@@ -97,7 +97,7 @@ func main() {
 		Hooks:     make(logrus.LevelHooks),
 		Level:     logrus.InfoLevel,
 	}
-	logger.AddHook(hooker)
+	logger.AddHook(hook)
 
 	logger.Info("My spoon is too big")
 }
@@ -115,10 +115,10 @@ channel_id: "" # required.
 format: "json" # supported formats: text, json, embed
 min_level: "info"
 levels:
-- "error"
-- "warning"
-- "info"
-- "trace"
+  - "error"
+  - "warning"
+  - "info"
+  - "trace"
 ```
 
 If only min_level is specified, then the hook will fire for all levels above the specified one. If only the levels 
