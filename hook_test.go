@@ -1,6 +1,7 @@
-package hook
+package discordbotrus
 
 import (
+	"errors"
 	"os"
 	"testing"
 	"time"
@@ -27,22 +28,23 @@ func TestNewHookDisabled(t *testing.T) {
 
 func TestNewHookWithOptions(t *testing.T) {
 	cfg := getConfig(EmbedFormatterCode)
+
 	session, err := discordgo.New("Bot " + cfg.Token)
 	if err != nil {
 		t.Fatalf("expected nil got error: %s", err)
 	}
 
 	defer func() {
-		if err != session.Close() {
+		if err := session.Close(); err != nil {
 			t.Fatalf("expected nil got error: %s", err)
 		}
 	}()
 
 	hook, err := New(
 		cfg,
-		SetSession(session),
-		SetFormatter(DefaultJSONFormatter),
-		SetLevels([]logrus.Level{logrus.ErrorLevel, logrus.WarnLevel, logrus.InfoLevel, logrus.TraceLevel}),
+		WithSession(session),
+		WithFormatter(DefaultJSONFormatter),
+		WithLevels([]logrus.Level{logrus.ErrorLevel, logrus.WarnLevel, logrus.InfoLevel, logrus.TraceLevel}),
 	)
 	if err != nil {
 		t.Fatalf("expected nil got error: %s", err)
@@ -73,7 +75,7 @@ func TestNewHook_ErrEmptyChannel(t *testing.T) {
 	cfg := NewDefaultConfig("", "")
 
 	hook, err := New(cfg)
-	if err != ErrEmptyChannelID {
+	if !errors.Is(err, ErrEmptyChannelID) {
 		t.Fatalf("expected error: %s got error: %s", ErrEmptyChannelID, err)
 	}
 
@@ -86,7 +88,7 @@ func TestNewHook_ErrEmptyToken(t *testing.T) {
 	cfg := NewDefaultConfig("", "1234567890")
 
 	hook, err := New(cfg)
-	if err != ErrEmptyToken {
+	if !errors.Is(err, ErrEmptyToken) {
 		t.Fatalf("expected error: %s got error: %s", ErrEmptyToken, err)
 	}
 
@@ -113,7 +115,7 @@ func testHookFire(t *testing.T, cfg *Config) {
 		t.Fatalf("expected nil got error: %s", err)
 	}
 
-	hook, err := New(cfg, SetSession(session))
+	hook, err := New(cfg, WithSession(session))
 	if err != nil {
 		t.Fatalf("expected nil got error: %s", err)
 	}

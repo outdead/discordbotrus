@@ -1,6 +1,6 @@
 # discordbotrus
 [![GitHub Build](https://github.com/outdead/discordbotrus/workflows/build/badge.svg)](https://github.com/goutdead/discordbotrus/actions)
-[![Coverage](https://gocover.io/_badge/github.com/outdead/discordbotrus?0 "coverage")](https://gocover.io/github.com/outdead/discordbotrus)
+[![Go Coverage](https://github.com/outdead/discordbotrus/wiki/coverage.svg)](https://raw.githack.com/wiki/outdead/discordbotrus/coverage.html)
 [![Go Report Card](https://goreportcard.com/badge/github.com/outdead/discordbotrus)](https://goreportcard.com/report/github.com/outdead/discordbotrus)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/outdead/discordbotrus)
 
@@ -16,7 +16,7 @@ See [Changelog](CHANGELOG.md) for release details.
 
 ## Requirements
 
-Go 1.19 or higher
+Go 1.23 or higher
 
 ## Usage
 
@@ -24,7 +24,6 @@ Go 1.19 or higher
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -33,20 +32,15 @@ import (
 )
 
 func main() {
-	cfg := hook.NewDefaultConfig(os.Getenv("LDH_TOKEN"), os.Getenv("LDH_CHANNEL"))
-	hooker, err := hook.New(cfg)
+	cfg := discordbotrus.NewDefaultConfig(os.Getenv("LDH_TOKEN"), os.Getenv("LDH_CHANNEL"))
+	hooker, err := discordbotrus.New(cfg)
 	if err != nil {
 		log.Fatalf("expected nil got error: %s", err)
 	}
 
-	defer func() {
-		if err := hooker.Close(); err != nil {
-			log.Fatalf("expected nil got error: %s", err)
-		}
-	}()
+	defer hooker.Close()
 
 	logger := &logrus.Logger{
-		Out: ioutil.Discard, 
 		Formatter: new(logrus.JSONFormatter), 
 		Hooks: make(logrus.LevelHooks), 
 		Level: logrus.InfoLevel,
@@ -65,7 +59,6 @@ If you wish to initialize a Discord Hook with an already initialized discordgo s
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -89,22 +82,17 @@ func main() {
 		log.Fatalf("open discord session error: %s", err)
 	}
 
-	defer func() {
-		if err != session.Close() {
-			log.Fatalf("expected nil got error: %s", err)
-		}
-	}()
+	defer session.Close()
 
 	hooker, err := hook.New(
-		&hook.Config{ChannelID: channelID},
-		hook.SetSession(session),
+		&discordbotrus.Config{ChannelID: channelID},
+		discordbotrus.SetSession(session),
 	)
 	if err != nil {
 		log.Fatalf("expected nil got error: %s", err)
 	}
 
 	logger := &logrus.Logger{
-		Out:       ioutil.Discard,
 		Formatter: new(logrus.JSONFormatter),
 		Hooks:     make(logrus.LevelHooks),
 		Level:     logrus.InfoLevel,

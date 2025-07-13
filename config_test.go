@@ -1,10 +1,13 @@
-package hook
+package discordbotrus
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestConfig_Validate(t *testing.T) {
 	cfg := NewDefaultConfig("", "")
-	if err := cfg.Validate(); err != ErrEmptyChannelID {
+	if err := cfg.Validate(); !errors.Is(err, ErrEmptyChannelID) {
 		t.Fatalf("expect err: %s got %s", ErrEmptyChannelID, err)
 	}
 

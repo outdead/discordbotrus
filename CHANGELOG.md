@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.3.0] - 2025-07-13
+## Fixed
+- Minor tests fixes.
+
+### Updated
+- Upped go module version to 1.23.3.
+- Upped golangci-lint version to  1.62.0.
+
+### Changed
+- Renamed package from hook to discordbotrus.
+- Renamed options functions.
+
 ## [v1.2.1] - 2023-02-18
 ### Updated
 - Upped go module version to 1.19.
@@ -44,7 +56,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Initial implementation.
 
-[Unreleased]: https://github.com/outdead/discordbotrus/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/outdead/discordbotrus/compare/v1.3.0...HEAD
+[v1.3.0]: https://github.com/outdead/discordbotrus/compare/v1.2.1...v1.3.0
 [v1.2.1]: https://github.com/outdead/discordbotrus/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://github.com/outdead/discordbotrus/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://github.com/outdead/discordbotrus/compare/v1.0.1...v1.1.0

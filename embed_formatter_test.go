@@ -1,4 +1,4 @@
-package hook
+package discordbotrus
 
 import (
 	"encoding/json"
@@ -111,14 +111,14 @@ func TestEmbedFormatter_CustomSorting(t *testing.T) {
 			"blablabla": "blablabla",
 		},
 	}
+
 	b, err := formatter.Format(entry)
 	if err != nil {
 		t.Errorf("expected nil got error: %s", err)
 	}
 
 	embed := discordgo.MessageEmbed{}
-	err = json.Unmarshal(b, &embed)
-	if err != nil {
+	if err := json.Unmarshal(b, &embed); err != nil {
 		t.Fatal("unable to unmarshal formatted entry: ", err)
 	}
 

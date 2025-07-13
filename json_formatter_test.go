@@ -1,7 +1,8 @@
-package hook
+package discordbotrus
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 	"testing"
 
@@ -47,7 +48,7 @@ func TestJSONFormatter_FormatLongMessage(t *testing.T) {
 		t.Fatal("expect error got nil")
 	}
 
-	if err != ErrMessageTooLong {
+	if !errors.Is(err, ErrMessageTooLong) {
 		t.Fatalf("unexpected error: %s got error: %s", err, ErrMessageTooLong)
 	}
 }

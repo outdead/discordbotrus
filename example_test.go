@@ -1,7 +1,7 @@
-package hook_test
+package discordbotrus_test
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 
@@ -11,25 +11,26 @@ import (
 )
 
 func TestExample(t *testing.T) {
-	cfg := hook.NewDefaultConfig(os.Getenv("LDH_TOKEN"), os.Getenv("LDH_CHANNEL"))
-	hooker, err := hook.New(cfg)
+	cfg := discordbotrus.NewDefaultConfig(os.Getenv("LDH_TOKEN"), os.Getenv("LDH_CHANNEL"))
+
+	hook, err := discordbotrus.New(cfg)
 	if err != nil {
 		t.Fatalf("expected nil got error: %s", err)
 	}
 
 	defer func() {
-		if err := hooker.Close(); err != nil {
+		if err := hook.Close(); err != nil {
 			t.Fatalf("expected nil got error: %s", err)
 		}
 	}()
 
 	logger := &logrus.Logger{
-		Out:       ioutil.Discard,
+		Out:       io.Discard,
 		Formatter: new(logrus.JSONFormatter),
 		Hooks:     make(logrus.LevelHooks),
 		Level:     logrus.InfoLevel,
 	}
-	logger.AddHook(hooker)
+	logger.AddHook(hook)
 
 	logger.Info("My spoon is too big")
 }
@@ -50,26 +51,25 @@ func TestExampleWithSession(t *testing.T) {
 	}
 
 	defer func() {
-		if err != session.Close() {
+		if err := session.Close(); err != nil {
 			t.Fatalf("expected nil got error: %s", err)
 		}
 	}()
 
-	hooker, err := hook.New(
-		&hook.Config{ChannelID: channelID},
-		hook.SetSession(session),
-	)
+	cfg := &discordbotrus.Config{ChannelID: channelID}
+
+	hook, err := discordbotrus.New(cfg, discordbotrus.WithSession(session))
 	if err != nil {
 		t.Fatalf("expected nil got error: %s", err)
 	}
 
 	logger := &logrus.Logger{
-		Out:       ioutil.Discard,
+		Out:       io.Discard,
 		Formatter: new(logrus.JSONFormatter),
 		Hooks:     make(logrus.LevelHooks),
 		Level:     logrus.InfoLevel,
 	}
-	logger.AddHook(hooker)
+	logger.AddHook(hook)
 
 	logger.Info("My spoon is too big")
 }

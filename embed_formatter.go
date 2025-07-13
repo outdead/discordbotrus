@@ -1,4 +1,4 @@
-package hook
+package discordbotrus
 
 import (
 	"encoding/json"

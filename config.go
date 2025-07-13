@@ -1,4 +1,4 @@
-package hook
+package discordbotrus
 
 // Config handles discord bot connection configuration and logrus levels.
 type Config struct {
